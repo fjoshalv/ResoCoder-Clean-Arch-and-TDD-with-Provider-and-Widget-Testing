@@ -19,14 +19,10 @@ abstract class NumberTriviaRemoteDataSource {
 }
 
 class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
-  NumberTriviaRemoteDataSourceImpl({
+  const NumberTriviaRemoteDataSourceImpl({
     required this.client,
     required this.options,
-  }) {
-    options.headers = {'Content-Type': 'application/json'};
-    // Add to test
-    options.responseType = ResponseType.plain;
-  }
+  });
 
   final Dio client;
   final Options options;
@@ -43,6 +39,8 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
       );
 
   Future<NumberTriviaModel> _getTriviaFromUrl(String url) async {
+    options.headers = {'Content-Type': 'application/json'};
+    options.responseType = ResponseType.plain;
     final response = await client.get(
       url,
       options: options,

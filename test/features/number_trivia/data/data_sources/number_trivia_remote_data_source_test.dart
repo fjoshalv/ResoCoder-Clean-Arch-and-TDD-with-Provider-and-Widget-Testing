@@ -104,6 +104,7 @@ void main() {
     );
   }
 
+  final headersMap = {'Content-Type': 'application/json'};
   group(
     "getConcreteNumberTrivia",
     () {
@@ -125,6 +126,24 @@ void main() {
               'http://numbersapi.com/$tNumber',
               options: mockOptions,
             ),
+          );
+
+          final passedHeaders = verify(
+            mockOptions.headers = captureAny,
+          ).captured.first;
+
+          expect(
+            passedHeaders,
+            equals(headersMap),
+          );
+
+          final passedResponseType = verify(
+            mockOptions.responseType = captureAny,
+          ).captured.first;
+
+          expect(
+            passedResponseType,
+            equals(ResponseType.plain),
           );
         },
       );
@@ -180,6 +199,24 @@ void main() {
               'http://numbersapi.com/random',
               options: mockOptions,
             ),
+          );
+
+          final passedHeaders = verify(
+            mockOptions.headers = captureAny,
+          ).captured.first;
+
+          expect(
+            passedHeaders,
+            equals(headersMap),
+          );
+
+          final passedResponseType = verify(
+            mockOptions.responseType = captureAny,
+          ).captured.first;
+
+          expect(
+            passedResponseType,
+            equals(ResponseType.plain),
           );
         },
       );
