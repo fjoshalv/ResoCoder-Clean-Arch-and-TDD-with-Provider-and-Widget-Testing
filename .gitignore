@@ -31,6 +31,8 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+.fvm/
+.vscode/
 
 # Symbolication related
 app.*.symbols
