@@ -26,7 +26,7 @@ class NumberTriviaProvider with ChangeNotifier {
 
   // State variables
   bool isLoading = false;
-  bool hasError = false;
+  bool get hasError => errorMessage != null;
   String? errorMessage;
   NumberTrivia? currentTrivia;
 
@@ -35,7 +35,6 @@ class NumberTriviaProvider with ChangeNotifier {
     var result = _inputConverter.stringToUnsignedInteger(numberText);
     result.fold(
       (failure) {
-        hasError = true;
         errorMessage = AppStrings.invalidInputMessage;
       },
       (parsedNumber) async {
@@ -68,7 +67,6 @@ class NumberTriviaProvider with ChangeNotifier {
     getTriviaResult.fold(
       (failure) {
         errorMessage = _mapFailureToMessage(failure);
-        hasError = true;
       },
       (trivia) {
         currentTrivia = trivia;

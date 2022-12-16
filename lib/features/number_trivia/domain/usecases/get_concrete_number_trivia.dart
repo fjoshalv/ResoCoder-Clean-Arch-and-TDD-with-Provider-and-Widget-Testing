@@ -30,6 +30,5 @@ class Params extends Equatable {
   final int number;
 
   @override
-  // TODO: implement props
   List<Object?> get props => [number];
 }

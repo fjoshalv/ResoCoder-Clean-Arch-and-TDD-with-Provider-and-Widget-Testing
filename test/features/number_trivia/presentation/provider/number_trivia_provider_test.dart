@@ -40,11 +40,12 @@ void main() {
     },
   );
   test(
-    'should check value of state variables when class is just instantiated',
+    'should check initial value of state variables',
     () {
       //assert
-      expect(numberTriviaProvider.hasError, equals(false));
+      expect(numberTriviaProvider.errorMessage, equals(null));
       expect(numberTriviaProvider.isLoading, equals(false));
+      expect(numberTriviaProvider.currentTrivia, null);
     },
   );
   group(
@@ -112,7 +113,7 @@ void main() {
           // act
           numberTriviaProvider.getTriviaForConcreteNumber(tNumberString);
           // assert
-          expect(numberTriviaProvider.hasError, equals(true));
+
           expect(
             numberTriviaProvider.errorMessage,
             equals(AppStrings.invalidInputMessage),
@@ -167,7 +168,7 @@ void main() {
             numberTriviaProvider.currentTrivia,
             null,
           );
-          expect(numberTriviaProvider.hasError, equals(true));
+
           expect(
             numberTriviaProvider.errorMessage,
             equals(AppStrings.serverFailureMessage),
@@ -190,7 +191,7 @@ void main() {
             numberTriviaProvider.currentTrivia,
             null,
           );
-          expect(numberTriviaProvider.hasError, equals(true));
+
           expect(
             numberTriviaProvider.errorMessage,
             equals(AppStrings.cacheFailureMessage),
@@ -278,7 +279,7 @@ void main() {
             numberTriviaProvider.currentTrivia,
             null,
           );
-          expect(numberTriviaProvider.hasError, equals(true));
+
           expect(
             numberTriviaProvider.errorMessage,
             equals(AppStrings.serverFailureMessage),
@@ -300,7 +301,7 @@ void main() {
             numberTriviaProvider.currentTrivia,
             null,
           );
-          expect(numberTriviaProvider.hasError, equals(true));
+
           expect(
             numberTriviaProvider.errorMessage,
             equals(AppStrings.cacheFailureMessage),
