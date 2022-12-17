@@ -26,9 +26,11 @@ class NumberTriviaProvider with ChangeNotifier {
 
   // State variables
   bool isLoading = false;
-  bool get hasError => errorMessage != null;
   String? errorMessage;
   NumberTrivia? currentTrivia;
+
+  // Getters
+  bool get hasError => errorMessage != null;
 
   // State functions
   Future<void> getTriviaForConcreteNumber(String numberText) async {
@@ -36,6 +38,7 @@ class NumberTriviaProvider with ChangeNotifier {
     result.fold(
       (failure) {
         errorMessage = AppStrings.invalidInputMessage;
+        notifyListeners();
       },
       (parsedNumber) async {
         isLoading = true;
@@ -69,6 +72,7 @@ class NumberTriviaProvider with ChangeNotifier {
         errorMessage = _mapFailureToMessage(failure);
       },
       (trivia) {
+        errorMessage = null;
         currentTrivia = trivia;
       },
     );

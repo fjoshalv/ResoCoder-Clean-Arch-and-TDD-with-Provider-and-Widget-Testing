@@ -19,6 +19,8 @@ import 'package:clean_arch_tdd/features/number_trivia/domain/usecases/get_random
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
+import '../../../../helpers/change_notifier_callback.dart' as _i11;
+
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: avoid_setters_without_getters
@@ -169,4 +171,23 @@ class MockInputConverter extends _i1.Mock implements _i10.InputConverter {
           ),
         ),
       ) as _i3.Either<_i6.Failure, int>);
+}
+
+/// A class which mocks [ChangeNotifierCallback].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockChangeNotifierCallback extends _i1.Mock
+    implements _i11.ChangeNotifierCallback {
+  MockChangeNotifierCallback() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  void call() => super.noSuchMethod(
+        Invocation.method(
+          #call,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }

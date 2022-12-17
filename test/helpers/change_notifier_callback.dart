@@ -1,0 +1,3 @@
+class ChangeNotifierCallback {
+  void call() {}
+}

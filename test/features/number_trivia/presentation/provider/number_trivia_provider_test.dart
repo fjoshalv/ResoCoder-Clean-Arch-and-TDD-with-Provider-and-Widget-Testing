@@ -12,6 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../../../helpers/change_notifier_callback.dart';
 import 'number_trivia_provider_test.mocks.dart';
 
 @GenerateNiceMocks(
@@ -21,11 +22,15 @@ import 'number_trivia_provider_test.mocks.dart';
     MockSpec<InputConverter>(),
   ],
 )
+@GenerateMocks(
+  [ChangeNotifierCallback],
+)
 void main() {
   late NumberTriviaProvider numberTriviaProvider;
   late MockGetConcreteNumberTrivia getConcreteNumberTrivia;
   late MockGetRandomNumberTrivia getRandomNumberTrivia;
   late MockInputConverter inputConverter;
+  late MockChangeNotifierCallback changeNotifierCallback;
 
   setUp(
     () {
@@ -37,6 +42,8 @@ void main() {
         getRandomNumberTrivia: getRandomNumberTrivia,
         inputConverter: inputConverter,
       );
+      changeNotifierCallback = MockChangeNotifierCallback();
+      numberTriviaProvider.addListener(changeNotifierCallback);
     },
   );
   test(
@@ -46,6 +53,7 @@ void main() {
       expect(numberTriviaProvider.errorMessage, equals(null));
       expect(numberTriviaProvider.isLoading, equals(false));
       expect(numberTriviaProvider.currentTrivia, null);
+      verifyNever(changeNotifierCallback());
     },
   );
   group(
@@ -80,7 +88,10 @@ void main() {
       );
 
       test(
-        'should check that [isLoading] switches its value correctly when calling [getTriviaForConcreteNumber]',
+        '''
+          should check that [isLoading] switches its value correctly when 
+          calling [getTriviaForConcreteNumber] and notify listeners
+        ''',
         () async {
           // arrange
           stubInputConverterSuccess();
@@ -98,11 +109,12 @@ void main() {
             numberTriviaProvider.isLoading,
             equals(false),
           );
+          verify(changeNotifierCallback()).called(2);
         },
       );
 
       test(
-        'should check that error is caught when input is invalid',
+        'should check that error is caught when input is invalid and notify listener',
         () {
           // arrange
           when(
@@ -118,6 +130,7 @@ void main() {
             numberTriviaProvider.errorMessage,
             equals(AppStrings.invalidInputMessage),
           );
+          verify(changeNotifierCallback()).called(1);
         },
       );
       test(
@@ -134,6 +147,7 @@ void main() {
               const Params(number: tNumberParsed),
             ),
           );
+          verify(changeNotifierCallback()).called(2);
         },
       );
 
@@ -150,6 +164,7 @@ void main() {
             numberTriviaProvider.currentTrivia,
             equals(tNumberTrivia),
           );
+          verify(changeNotifierCallback()).called(2);
         },
       );
 
@@ -173,6 +188,7 @@ void main() {
             numberTriviaProvider.errorMessage,
             equals(AppStrings.serverFailureMessage),
           );
+          verify(changeNotifierCallback()).called(2);
         },
       );
 
@@ -196,6 +212,30 @@ void main() {
             numberTriviaProvider.errorMessage,
             equals(AppStrings.cacheFailureMessage),
           );
+          verify(changeNotifierCallback()).called(2);
+        },
+      );
+
+      test(
+        'should check [errorMessage] is null when a subsequent try is successful',
+        () async {
+          //! Part one - trigger error so that [errorMessage] has a value.
+          //arrange
+          // TODO: Refactor this to reutilize
+          when(inputConverter.stringToUnsignedInteger(any)).thenReturn(
+            Left(InvalidInputFailure()),
+          );
+          //act
+          await numberTriviaProvider.getTriviaForConcreteNumber(tNumberString);
+          //! Part two - trigger successful call
+          // arrange
+          stubInputConverterSuccess();
+          stubGetConcreteNumberTriviaSuccess();
+          // act
+          await numberTriviaProvider.getTriviaForConcreteNumber(tNumberString);
+          // assert
+          expect(numberTriviaProvider.errorMessage, equals(null));
+          verify(changeNotifierCallback()).called(3);
         },
       );
     },
@@ -225,8 +265,7 @@ void main() {
             numberTriviaProvider.isLoading,
             equals(false),
           );
-          // TODO: VERIFY HOW TO MAKE THIS WORK
-          //verify(numberTriviaProvider.notifyListeners()).called(2);
+          verify(changeNotifierCallback()).called(2);
         },
       );
 
@@ -245,6 +284,7 @@ void main() {
               NoParams(),
             ),
           );
+          verify(changeNotifierCallback()).called(2);
         },
       );
 
@@ -262,6 +302,7 @@ void main() {
             numberTriviaProvider.currentTrivia,
             equals(tNumberTrivia),
           );
+          verify(changeNotifierCallback()).called(2);
         },
       );
       // TODO: Refactor this!!! (and also on the other group)
@@ -284,6 +325,7 @@ void main() {
             numberTriviaProvider.errorMessage,
             equals(AppStrings.serverFailureMessage),
           );
+          verify(changeNotifierCallback()).called(2);
         },
       );
 
@@ -306,6 +348,31 @@ void main() {
             numberTriviaProvider.errorMessage,
             equals(AppStrings.cacheFailureMessage),
           );
+          verify(changeNotifierCallback()).called(2);
+        },
+      );
+
+      test(
+        'should check [errorMessage] is null when a subsequent try is successful',
+        () async {
+          //! Part one - trigger error so that [errorMessage] has a value.
+          //arrange
+          when(getRandomNumberTrivia(any)).thenAnswer(
+            (_) async => Left(CacheFailure()),
+          );
+          //act
+          await numberTriviaProvider.getTriviaForRandomNumber();
+          //! Part two - trigger successful call
+          // arrange
+          // TODO: Refactor this
+          when(getRandomNumberTrivia(any)).thenAnswer(
+            (_) async => const Right(tNumberTrivia),
+          );
+          // act
+          await numberTriviaProvider.getTriviaForRandomNumber();
+          // assert
+          expect(numberTriviaProvider.errorMessage, equals(null));
+          verify(changeNotifierCallback()).called(4);
         },
       );
     },
