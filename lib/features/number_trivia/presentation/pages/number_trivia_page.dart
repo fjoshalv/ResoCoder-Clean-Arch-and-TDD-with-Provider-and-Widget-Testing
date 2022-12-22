@@ -1,3 +1,4 @@
+import 'package:clean_arch_tdd/core/values/app_strings.dart';
 import 'package:clean_arch_tdd/features/number_trivia/presentation/provider/number_trivia_provider.dart';
 import 'package:clean_arch_tdd/features/number_trivia/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class NumberTriviaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Number Trivia'),
+        title: const Text(AppStrings.numberTrivia),
         centerTitle: false,
       ),
       body: const SingleChildScrollView(
@@ -50,7 +51,7 @@ class _NTPBody extends StatelessWidget {
               );
             }
             return const MessageDisplay(
-              message: 'Start searching!',
+              message: AppStrings.startSearching,
             );
           }),
           const SizedBox(

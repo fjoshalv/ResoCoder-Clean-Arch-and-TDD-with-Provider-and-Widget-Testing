@@ -1,3 +1,4 @@
+import 'package:clean_arch_tdd/core/values/app_strings.dart';
 import 'package:clean_arch_tdd/features/number_trivia/presentation/provider/number_trivia_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class _TriviaControlsState extends State<TriviaControls> {
           controller: controller,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
-            hintText: 'Input a number',
+            hintText: AppStrings.inputANumber,
           ),
           keyboardType: TextInputType.number,
           onChanged: (value) {
@@ -43,7 +44,7 @@ class _TriviaControlsState extends State<TriviaControls> {
                     Theme.of(context).colorScheme.secondary,
                   ),
                 ),
-                child: const Text('Search'),
+                child: const Text(AppStrings.search),
               ),
             ),
             const SizedBox(
@@ -57,7 +58,7 @@ class _TriviaControlsState extends State<TriviaControls> {
                     Theme.of(context).colorScheme.outline,
                   ),
                 ),
-                child: const Text('Get random trivia'),
+                child: const Text(AppStrings.getRandomTrivia),
               ),
             ),
           ],
