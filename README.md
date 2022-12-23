@@ -55,6 +55,9 @@ There are some things that does not convince 100% yet, so if you would like to a
 ---
 
 ## Credits and references
+
+[Flutter TDD Clean Architecture - ResoCoder](https://www.youtube.com/watch?v=KjE2IDphA_U&t=1s&pp=ugMICgJlcxABGAE%3D)
+
 [What is faking vs. mocking vs. stubbing?](https://www.educative.io/answers/what-is-faking-vs-mocking-vs-stubbing)
 
 [Testing widget which are using provider](https://github.com/rrousselGit/provider/issues/182)
