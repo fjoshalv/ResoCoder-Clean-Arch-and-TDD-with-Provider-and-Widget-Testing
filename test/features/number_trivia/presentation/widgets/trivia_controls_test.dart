@@ -10,8 +10,9 @@ void main() {
     'Should verify layout elements',
     (tester) async {
       // Arrange
-      await tester
-          .pumpWidget(const TriviaControls().wrapWithMaterialAndScaffold());
+      await tester.pumpWidget(
+        const TriviaControls().wrapWithMaterialAndScaffold(),
+      );
 
       // Act
       final inputTextField = find.byType(TextField);
@@ -24,6 +25,22 @@ void main() {
       expect(inputTextField, findsOneWidget);
       expect(searchButton, findsOneWidget);
       expect(randomButton, findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'should check that text field only accepts digits',
+    (tester) async {
+      //arrange
+      await tester.pumpWidget(
+        const TriviaControls().wrapWithMaterialAndScaffold(),
+      );
+      //act
+      final inputTextField = find.byType(TextField);
+      await tester.enterText(inputTextField, 'aaa');
+      final inputTextFieldByValue = find.widgetWithText(TextField, 'aaa');
+      //assert
+      expect(inputTextFieldByValue, findsNothing);
     },
   );
 }

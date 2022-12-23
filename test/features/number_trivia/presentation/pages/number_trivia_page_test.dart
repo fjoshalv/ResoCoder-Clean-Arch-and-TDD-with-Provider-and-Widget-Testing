@@ -143,22 +143,4 @@ void main() {
       );
     },
   );
-
-  // testWidgets(
-  //   'Should have one field to enter number trivia',
-  //   (tester) async {
-  //     // Arrange
-  //     await tester.pumpWidget(
-  //       const NumberTriviaPage().wrapWithMaterialAndNumberTriviaProvider(
-  //         MockNumberTriviaProvider(),
-  //       ),
-  //     );
-
-  //     //Act
-  //     final numberTriviaTextField = find.byType(TextField);
-
-  //     // Assert
-  //     expect(numberTriviaTextField, findsOneWidget);
-  //   },
-  // );
 }

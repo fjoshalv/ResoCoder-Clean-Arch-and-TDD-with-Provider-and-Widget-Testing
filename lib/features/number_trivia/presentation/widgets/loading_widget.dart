@@ -7,8 +7,7 @@ class LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('LLEGO');
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height * 0.33,
       child: const Center(
         child: CircularProgressIndicator(),

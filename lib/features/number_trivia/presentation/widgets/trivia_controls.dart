@@ -1,6 +1,7 @@
 import 'package:clean_arch_tdd/core/values/app_strings.dart';
 import 'package:clean_arch_tdd/features/number_trivia/presentation/provider/number_trivia_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class TriviaControls extends StatefulWidget {
@@ -26,6 +27,9 @@ class _TriviaControlsState extends State<TriviaControls> {
             hintText: AppStrings.inputANumber,
           ),
           keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
           onChanged: (value) {
             inputString = value;
           },
